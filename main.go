@@ -26,7 +26,6 @@ func main() {
 
 	if !pflag.CommandLine.Changed("url") {
 		fmt.Printf("--url flag not specified. Using default %s\n\n", Url)
-		log.Info("Test")
 		fmt.Print("---\n\n")
 	}
 
@@ -36,6 +35,7 @@ func main() {
 		return
 	}
 
+	// log.Info("Printing out status, protocol & Header")
 	fmt.Printf("Status: %s\n", resp.Status)
 	fmt.Printf("Protocol: %s\n", resp.Proto)
 	fmt.Print("Header:")
