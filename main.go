@@ -2,12 +2,20 @@ package main
 
 import (
 	"fmt"
+	"github.com/spf13/pflag"
 	"net/http"
 	"strings"
 )
 
+var (
+	Url string
+)
+
 func main() {
-	resp, err := http.Get("https://google.com")
+	pflag.StringVar(&Url, "url", "https://google.com", "fill in values")
+	pflag.Parse()
+
+	resp, err := http.Get(Url)
 	if err != nil {
 		fmt.Println("Error: ", err)
 		return
