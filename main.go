@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/lnvn/web-header-crawler/v2/pkg/logger"
 	"github.com/spf13/pflag"
 )
 
@@ -13,11 +14,19 @@ var (
 )
 
 func main() {
+	log, err := logger.New()
+	if err != nil {
+		log.Fatal("Fail to initiate:")
+	}
+
+	defer log.Sync()
+
 	pflag.StringVar(&Url, "url", "https://google.com", "fill in values")
 	pflag.Parse()
 
 	if !pflag.CommandLine.Changed("url") {
 		fmt.Printf("--url flag not specified. Using default %s\n\n", Url)
+		log.Info("Test")
 		fmt.Print("---\n\n")
 	}
 
