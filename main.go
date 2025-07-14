@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/spf13/pflag"
 	"net/http"
 	"strings"
+
+	"github.com/spf13/pflag"
 )
 
 var (
@@ -14,6 +15,11 @@ var (
 func main() {
 	pflag.StringVar(&Url, "url", "https://google.com", "fill in values")
 	pflag.Parse()
+
+	if !pflag.CommandLine.Changed("url") {
+		fmt.Printf("--url flag not specified. Using default %s\n\n", Url)
+		fmt.Print("---\n\n")
+	}
 
 	resp, err := http.Get(Url)
 	if err != nil {
