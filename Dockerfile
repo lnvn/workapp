@@ -1,14 +1,16 @@
-FROM golang:1.22.2 as build
+FROM golang:1.22.2 AS build
 
-WORKDIR /home/crawler
+ARG BINARY_NAME=main
+WORKDIR /app
+
 COPY . .
-
 RUN go mod download
-RUN CGO_ENABLED=0 go build -o main ./main.go
+RUN CGO_ENABLED=0 go build -o ${BINARY_NAME} ./main.go
 
 FROM gcr.io/distroless/static:nonroot
 # FROM golang:1.22.2
+ARG BINARY_NAME
 
-COPY --from=build /home/crawler/main /bin/main
+COPY --from=build /app/${BINARY_NAME} /bin/${BINARY_NAME}
 
 CMD [ "/bin/main" ]
