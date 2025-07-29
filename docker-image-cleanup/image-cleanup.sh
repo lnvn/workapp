@@ -17,15 +17,18 @@ mapfile -t docker_images < <(docker images --format '{{.Repository}}:{{.Tag}}')
 for image in "${docker_images[@]}"; do
     # display a prompt message before accepting user input intead of using echo
     read -p "Do you want to delete '$image'? [y/N]: " confirm
-    echo "Processing image: $image"
     if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
         images_to_delete+=("$image")
         echo "Marked '$image' for deletion."
     else
         echo "Skipping '$image'."
     fi
+    echo -e "\n"
 done
 
-for image in "${images_to_delete[@]}"; do
-    echo "deleting $image"
-done
+if [ ${#images_to_delete[@]} -gt 0 ]; then
+    echo "Deleting images: ${images_to_delete[*]}"
+    docker rmi "${images_to_delete[@]}"
+else
+    echo "No images were marked for deletion."
+fi
