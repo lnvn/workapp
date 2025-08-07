@@ -18,3 +18,8 @@ build-docker:
 test-docker:
 	@echo "Running test docker image..."
 	docker run --rm $(IMAGE_NAME):$(IMAGE_TAG)
+
+.PHONY: help
+
+help:
+	@echo "???"
